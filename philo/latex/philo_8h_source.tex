@@ -1,0 +1,56 @@
+\doxysection{philo.\+h}
+\hypertarget{philo_8h_source}{}\label{philo_8h_source}\mbox{\hyperlink{philo_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ philo.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ jsobreir\ <jsobreir@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/09/05\ 17:56:55\ by\ jsobreir\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/09/11\ 14:14:48\ by\ jsobreir\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifndef\ PHILO\_H}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#\ define\ PHILO\_H}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#\ include\ <stdio.h>}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#\ include\ <stdlib.h>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#\ include\ <pthread.h>}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#\ include\ <unistd.h>}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#\ define\ PHILO\_MAX\ 200}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__args}{s\_args}}}
+\DoxyCodeLine{00040\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_philo;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{int}\ tdie;}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{int}\ teat;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{int}\ tsleep;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{int}\ max\_eat;}
+\DoxyCodeLine{00046\ \ \ \ \ }
+\DoxyCodeLine{00047\ \}\ \ \ \mbox{\hyperlink{philo_8h_a7a2c62b5ef76982749b496f807c044bc}{t\_args}};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__philo}{s\_philo}}}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ pthread\_mutex\_t\ *fork\_lock;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{int}\ id;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ alive;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \}\ \ \ \mbox{\hyperlink{philo_8h_a7b20ce4f97b6f0dc2e44a50c149be74d}{t\_philo}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ INIT}}
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}\ \ \ \ init\_philos(\mbox{\hyperlink{structs__philo}{t\_philo}}\ *philo,\ \mbox{\hyperlink{structs__args}{t\_args}}\ *args);}
+\DoxyCodeLine{00063\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{philo_8h_ad2370111d40407fd363a9785db2964f2}{init}}(\mbox{\hyperlink{structs__args}{t\_args}}\ *args);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{comment}{//\ PARSER}}
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{philo_8h_ad7457ed210908d3acc9aa8fda8dfc776}{parse\_args}}(\mbox{\hyperlink{structs__args}{t\_args}}\ *args,\ \textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ **argv);}
+\DoxyCodeLine{00067\ \textcolor{keywordtype}{int}\ \ \ \ \ \mbox{\hyperlink{philo_8h_add42b4526258474611c3a359785f84eb}{ft\_atoi}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *nptr);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
