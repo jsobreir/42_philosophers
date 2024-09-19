@@ -6,7 +6,7 @@
 /*   By: jsobreir <jsobreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:56:26 by jsobreir          #+#    #+#             */
-/*   Updated: 2024/09/12 19:38:28 by jsobreir         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:49:37 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,21 @@ void	*routine(void *phil)
 	t_philo *philo;
 
 	philo = (t_philo *)phil;
-	if (philo->id == 1)
-		gettimeofday(&philo->args->start_time, 0);
 	while (1)
 	{
-		// pthread_mutex_lock(&philo->philo_mutex);
-		if (philo->args->died == 1)
-			break ;
-		// pthread_mutex_unlock(&philo->philo_mutex);
+		printf("Here1\n");
+		pthread_mutex_lock(&philo->args->mutex);
+		if (philo->args->nuke == 1)
+		{
+			printf("Here\n");
+			pthread_mutex_unlock(&philo->args->mutex);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&philo->args->mutex);
 		eating(philo);
-		sleeping(philo);
-		thinking(philo);
+		handler(philo, SLEEP);
+		usleep(philo->args->tsleep);
+		handler(philo, THINK);
 	}
 	return (NULL);
 }
@@ -73,11 +77,11 @@ void	eating(t_philo *philo)
 		pthread_mutex_lock(&philo->args->forks_lock[r_fork]); //Right
 		pthread_mutex_lock(&philo->args->forks_lock[l_fork]); //Left		
 	}
-	printf("%d %d has taken a fork\n", get_time(philo->args), philo->id);
-	if (philo->id == 1)
-		printf("%d %d is eating\n", get_time(philo->args), philo->id);
+	handler(philo, FORK);
+	handler(philo, FORK);
+	philo->last_supper = get_time();
+	handler(philo, EAT);
 	usleep(philo->args->teat);
-	philo->last_supper = get_time(philo->args);
 	if (id % 2 == 0)
 	{
 		pthread_mutex_unlock(&philo->args->forks_lock[r_fork]); // Right
@@ -90,43 +94,30 @@ void	eating(t_philo *philo)
 	}
 }
 
-void	thinking(t_philo *philo)
-{
-	printf("%d %d is thinking\n", get_time(philo->args), philo->id);
-}
-
-void	sleeping(t_philo *philo)
-{
-	printf("%d %d is sleeping\n", get_time(philo->args), philo->id);
-	usleep(philo->args->tsleep);
-}
-
 /// @brief Function that monitors if the philosophers are alive. If not, exits program.
 /// @param args Pointer to the args struct.
 /// @param philo Pointer to the philo stucts array.
 void	monitoring(t_args *args, t_philo *philo)
 {
 	int	i;
-	int	time_since_eat;
+	long long	time_since_eat;
 
-	i = 0;
-	while (i < args->num_philo)
+	while (1)
 	{
-		printf("Philo %d in monitoring\n", philo[i].id);
-		// Implement number of times philosopher has eated check here
-		time_since_eat = get_time(args) - philo[i].last_supper;
-		if (time_since_eat > args->teat)
+		i = 0;
+		while (i < args->num_philo)
 		{
-			philo[i].alive = 0;
-			pthread_mutex_lock(&philo->philo_mutex);
-			args->died = 1;
-			printf("%d %d died\n", get_time(args), philo[i].id);
-			pthread_mutex_unlock(&philo->philo_mutex);
-			break;
+			pthread_mutex_lock(&args->time_lock);
+			time_since_eat = get_time() - args->start - philo[i].last_supper;
+			if (time_since_eat > args->tdie)
+			{
+				philo[i].died = 1;
+				pthread_mutex_unlock(&args->time_lock);
+				handler(&philo[i], DIED);
+				return ;
+			}
+			pthread_mutex_unlock(&args->time_lock);
+			i++;
 		}
-		i++;
 	}
-	// Two options from here: either the philosophers check if they are dead and
-	// alter a variable that is external to all philos, or the monitoring function
-	// checks if each philo is dead in a loop
 }

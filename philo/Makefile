@@ -9,7 +9,9 @@ NAME = philo
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -g -lpthread
+FLAGS = -Wall -Wextra -Werror -g -lpthread 
+# FLAGS = -Wall -Wextra -Werror -g -lpthread -fsanitize=thread
+
 
 all: $(NAME)
 
